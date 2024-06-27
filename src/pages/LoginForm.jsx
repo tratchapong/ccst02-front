@@ -26,7 +26,8 @@ function LoginForm() {
       })
       setUser(rs2.data.user)
     }catch(err) {
-      alert(err.response.data?.error)
+      let errMsg = err.response?.data?.error || err.message
+      alert(errMsg)
     }
   }
   return (

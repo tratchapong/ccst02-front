@@ -3,6 +3,7 @@ import Header from "../layouts/Header";
 import LoginForm from "../pages/LoginForm";
 import RegisterForm from "../pages/RegisterForm";
 import useAuth from "../hooks/useAuth";
+import HomeworkForm from "../pages/HomeworkForm";
 
 const teacherRouter = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ const teacherRouter = createBrowserRouter([
     </>,
     children: [
       {index: true, element : <p>Teacher Home</p>},
-      {path: '/new', element : <p>Add new Homework</p>},
+      {path: '/new', element : <HomeworkForm />},
       {path: '*', element : <p>Page not found</p>},
     ]
   }
