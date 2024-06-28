@@ -1,10 +1,13 @@
 /* eslint-disable no-unused-vars */
+import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
 function HomeworkForm() {
+  const navigate = useNavigate()
   const [input, setInput] = useState({
     question: "",
     startdate: new Date(),
@@ -12,14 +15,25 @@ function HomeworkForm() {
     published: false,
     subject_id: "",
   });
-  const [startDate, setStartDate] = useState(new Date());
+
 
   const hdlChange = (e) => {
     setInput((prv) => ({ ...prv, [e.target.name]: e.target.value }));
   };
 
-  const hdlSubmit = e =>{
-    e.preventDefault()
+  const hdlSubmit = async e =>{
+    try {
+      e.preventDefault()
+      const token = localStorage.getItem('token')
+      const rs = await axios.post('http://localhost:8888/homework', input, {
+        headers : { Authorization : `Bearer ${token}`}
+      })
+      console.log(rs)
+      alert('Homework created')
+      navigate('/')
+    }catch(err) {
+      console.log(err.message)
+    }
 
   }
   return (
