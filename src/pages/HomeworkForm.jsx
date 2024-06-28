@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 
@@ -15,7 +15,19 @@ function HomeworkForm() {
     published: false,
     subject_id: "",
   });
+  const [subjects,setSubjects] = useState([])
 
+  useEffect( ()=>{
+    const run = async () => {
+      try{
+        const rs = await axios.get('http://localhost:8888/subject')
+        setSubjects(rs.data.subjects)
+      }catch(err) {
+        console.log(err.message)
+      }
+    }
+    run()
+  },[] )
 
   const hdlChange = (e) => {
     setInput((prv) => ({ ...prv, [e.target.name]: e.target.value }));
@@ -53,9 +65,9 @@ function HomeworkForm() {
             <option disabled value={""}>
               Pick one
             </option>
-            <option value={1}>HTML</option>
-            <option value={2}>CSS</option>
-            <option value={3}>Javascript</option>
+            { subjects?.map( el=> (
+              <option key={el.id} value={el.id}>{el.title}</option>
+            ))}
           </select>
         </label>
         <textarea
