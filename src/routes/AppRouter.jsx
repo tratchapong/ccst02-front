@@ -5,6 +5,7 @@ import RegisterForm from "../pages/RegisterForm";
 import useAuth from "../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import HomeworkForm from "../pages/HomeworkForm";
+import TeacherHome from "../pages/TeacherHome";
 
 const teacherRouter = createBrowserRouter([
   {
@@ -14,7 +15,7 @@ const teacherRouter = createBrowserRouter([
       <Outlet/>
     </>,
     children: [
-      { index: true, element: <p>Teacher Home</p> },
+      { index: true, element: <TeacherHome /> },
       { path: 'new', element: <HomeworkForm /> },
       { path: "*", element: <h1>Page not found</h1> }
     ]
