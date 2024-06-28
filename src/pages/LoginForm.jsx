@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { useState } from 'react'
+import useAuth from '../hooks/useAuth'
 
 function LoginForm() {
-
+  const {setUser} = useAuth()
   const [input, setInput] = useState({
     code : '', password : ''
   })
@@ -18,13 +19,15 @@ function LoginForm() {
       let codeFor = input.code.toLocaleLowerCase().startsWith('t') ? 't_code' : 's_code'
       const body = { [codeFor] : input.code , password : input.password }
       const rs = await axios.post('http://localhost:8888/auth/login', body)
-      if(rs.status === 200) {
-        alert(`Token = ${rs.data}`)
-        console.log(rs)
-      }
       localStorage.setItem('token', rs.data)
+      const rs2 = await axios.get('http://localhost:8888/auth/me', {
+        headers : { Authorization : `Bearer ${rs.data}`}
+      })
+      setUser(rs2.data.user)
+
     }catch(err) {
-      alert(err.response.data?.error)
+      alert(err.response?.data?.error)
+      // console.log(err)
     }
   }
   return (
@@ -35,7 +38,7 @@ function LoginForm() {
     >
       <label className="form-control w-full ">
         <div className="label">
-          <span className="label-text">Student Code</span>
+          <span className="label-text">Your Code</span>
         </div>
         <input
           type="text"
