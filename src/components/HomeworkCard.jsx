@@ -1,9 +1,9 @@
 import React from 'react'
 
-function HomeworkCard({el}) {
+function HomeworkCard({el, openEdit}) {
   return (
     <div className="card bg-base-100 w-4/5 max-w-[900px] mx-auto shadow-xl">
-    <div className="card-body gap-4">
+    <div className="card-body gap-4" onClick={()=>openEdit(el)}>
       <div className="flex justify-between">
         <h2 className="card-title">{el.subject.title} 
           <div className={`badge badge-outline ${el.published? 'badge-primary' : ''} p-2`}>{el.published? '':'un-'}published</div>

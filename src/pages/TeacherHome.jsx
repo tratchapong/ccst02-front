@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import HomeworkCard from "../components/HomeworkCard";
+import Modal from "../components/Modal";
+import HomeworkForm from "./HomeworkForm";
+import HomeworkEditForm from "../components/HomeworkEditForm";
 
 const homeworkApi = axios.create({
   baseURL: "http://localhost:8888/homework",
@@ -18,14 +21,13 @@ const homeworkApi = axios.create({
 function TeacherHome() {
   const [homeworks, setHomework] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editData, SetEditData] = useState({})
 
   homeworkApi.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
     return config;
   });
 
-  const el = homeworks[0]
-  console.log('el=', el)
   useEffect(() => {
     const run = async () => {
       try {
@@ -41,6 +43,12 @@ function TeacherHome() {
     run();
   }, []);
 
+  const openEdit = (el) => {
+    // console.log(el)
+    SetEditData(el)
+    document.getElementById('editform').showModal();
+  };
+
   if (loading) {
     return <p className="text-xl">Loading...</p>;
   }
@@ -49,10 +57,12 @@ function TeacherHome() {
       <h1 className="text-3xl text-center">TeacherHome</h1>
 
       {homeworks.map((el) => (
-        <HomeworkCard key={el.id} el={el} />
+        <HomeworkCard key={el.id} el={el} openEdit={openEdit} />
       ))}
 
-
+      <Modal modal_id="editform" >
+        <HomeworkEditForm el={editData} /> 
+      </Modal>
     </>
   );
 }
