@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -13,21 +12,30 @@ const homeworkApi = axios.create({
   baseURL: 'http://localhost:8888/homework'
 })
 
-function HomeworkEditForm({el}) {
+function HomeworkEditForm({el, updateList}) {
 
+  console.log('HomeworkEditForm',el)
   homeworkApi.interceptors.request.use( config => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
     return config
   })
 
-  const navigate = useNavigate()
+  // const [input, setInput] = useState({
+  //   subject_id: el.subject_id ?? '',
+  //   question: el.question ?? '',
+  //   startdate: el.startdate ? new Date(el.startdate) : new Date(),
+  //   duedate: el.duedate ? new Date(el.duedate) : new Date(),
+  //   published: el.published ?? false,
+  // });
+
   const [input, setInput] = useState({
-    question: el.question,
-    startdate: el.startdate,
-    duedate: el.duedate,
-    published: el.published,
-    subject_id: el.subject_id,
+    subject_id: '',
+    question:  '',
+    startdate: el.startdate ? new Date(el.startdate) : new Date(),
+    duedate: el.duedate ? new Date(el.duedate) : new Date(),
+    published: el.published 
   });
+
   const [subjects,setSubjects] = useState([])
 
   useEffect( ()=>{
@@ -42,6 +50,18 @@ function HomeworkEditForm({el}) {
     run()
   },[] )
 
+  useEffect(() => {
+    console.log('useEffect..setInput again')
+    setInput({
+      subject_id: el.subject_id ?? '',
+      question: el.question ?? '',
+      startdate: el.startdate ? new Date(el.startdate) : new Date(),
+      duedate: el.duedate ? new Date(el.duedate) : new Date(),
+      published: el.published ?? false,
+    });
+  }, [el.id,el.subject_id,el.question,el.startdate,el.duedate,el.published]);
+
+
   const hdlChange = (e) => {
     setInput((prv) => ({ ...prv, [e.target.name]: e.target.value }));
   };
@@ -50,9 +70,7 @@ function HomeworkEditForm({el}) {
     try {
       e.preventDefault()
       const rs = await homeworkApi.put(`/${el.id}`, input)
-      // console.log(rs)
-      // alert('Homework updated')
-      navigate('/')
+      updateList()
     }catch(err) {
       console.log(err.message)
     }
@@ -62,8 +80,6 @@ function HomeworkEditForm({el}) {
   return (
     <div className="border w-4/6 min-w-[600px] flex flex-col gap-3 mx-auto p-3">
     <h1 className="text-2xl">Edit Homework</h1>
-      <div>{JSON.stringify(el)}</div>
-      <hr />
     <form className="flex flex-col gap-2" onSubmit={hdlSubmit}>
       <label className="form-control w-full max-w-xs">
         <div className="label">
@@ -83,6 +99,9 @@ function HomeworkEditForm({el}) {
           ))}
         </select>
       </label>
+
+          <span className="label-text">Question</span>
+
       <textarea
         className="textarea textarea-info"
         placeholder="Question"

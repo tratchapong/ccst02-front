@@ -21,7 +21,8 @@ const homeworkApi = axios.create({
 function TeacherHome() {
   const [homeworks, setHomework] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editData, SetEditData] = useState({})
+  const [editData, SetEditData] = useState({});
+  const [reload, setReload] = useState(false);
 
   homeworkApi.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
@@ -41,12 +42,12 @@ function TeacherHome() {
       }
     };
     run();
-  }, []);
+  }, [reload]);
 
   const openEdit = (el) => {
-    // console.log(el)
-    SetEditData(el)
-    document.getElementById('editform').showModal();
+    console.log(el)
+    SetEditData(el);
+    document.getElementById("editform").showModal();
   };
 
   if (loading) {
@@ -60,8 +61,11 @@ function TeacherHome() {
         <HomeworkCard key={el.id} el={el} openEdit={openEdit} />
       ))}
 
-      <Modal modal_id="editform" onClose={()=>SetEditData({})}>
-        {editData?.id && <HomeworkEditForm el={editData} /> }
+      <Modal modal_id="editform" onClose={() => SetEditData({})}>
+          <HomeworkEditForm
+            el={editData}
+            updateList={() => setReload((prv) => !prv)}
+          />
       </Modal>
     </>
   );
