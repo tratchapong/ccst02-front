@@ -60,8 +60,8 @@ function TeacherHome() {
         <HomeworkCard key={el.id} el={el} openEdit={openEdit} />
       ))}
 
-      <Modal modal_id="editform" >
-        <HomeworkEditForm el={editData} /> 
+      <Modal modal_id="editform" onClose={()=>SetEditData({})}>
+        {editData?.id && <HomeworkEditForm el={editData} /> }
       </Modal>
     </>
   );

@@ -1,6 +1,6 @@
-export default function Modal({modal_id, children}) {
+export default function Modal({modal_id, children, onClose}) {
   return (
-      <dialog id={modal_id} className="modal ">
+      <dialog id={modal_id} className="modal " onClose={onClose}>
         <div className="modal-box max-w-[800px] ">
           {children}
         </div>
