@@ -6,7 +6,26 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
+const subjectApi = axios.create({
+  baseURL: 'http://localhost:8888/subject'
+})
+
+subjectApi.interceptors.request.use(request => {
+  // console.log('Starting Request', JSON.stringify(request, null, 2))
+  console.log(request)
+  return request
+})
+
+subjectApi.interceptors.response.use(response => {
+  // console.log('Response:', JSON.stringify(response, null, 2))
+  console.log(response)
+  return response
+})
+
+
+
 function HomeworkForm() {
+
   const navigate = useNavigate()
   const [input, setInput] = useState({
     question: "",
@@ -20,7 +39,7 @@ function HomeworkForm() {
   useEffect( ()=>{
     const run = async () => {
       try{
-        const rs = await axios.get('http://localhost:8888/subject')
+        const rs = await subjectApi.get('/')
         setSubjects(rs.data.subjects)
       }catch(err) {
         console.log(err.message)
