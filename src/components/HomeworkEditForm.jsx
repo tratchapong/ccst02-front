@@ -9,8 +9,17 @@ import "react-datepicker/dist/react-datepicker.css";
 const subjectApi = axios.create({
   baseURL: 'http://localhost:8888/subject'
 })
+const homeworkApi = axios.create({
+  baseURL: 'http://localhost:8888/homework'
+})
 
 function HomeworkEditForm({el}) {
+
+  homeworkApi.interceptors.request.use( config => {
+    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    return config
+  })
+
   const navigate = useNavigate()
   const [input, setInput] = useState({
     question: el.question,
@@ -40,13 +49,10 @@ function HomeworkEditForm({el}) {
   const hdlSubmit = async e =>{
     try {
       e.preventDefault()
-      // const token = localStorage.getItem('token')
-      // const rs = await axios.post('http://localhost:8888/homework', input, {
-      //   headers : { Authorization : `Bearer ${token}`}
-      // })
+      const rs = await homeworkApi.put(`/${el.id}`, input)
       // console.log(rs)
-      // alert('Homework created')
-      // navigate('/')
+      // alert('Homework updated')
+      navigate('/')
     }catch(err) {
       console.log(err.message)
     }
