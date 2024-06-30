@@ -1,4 +1,4 @@
-import React from 'react'
+import formatDate from "../utils/formatDate"
 
 function HomeworkCard({el, openEdit, homeworkApi, updateList}) {
 
@@ -28,8 +28,8 @@ function HomeworkCard({el, openEdit, homeworkApi, updateList}) {
         >delete</button>
       </div>
       <div className="flex justify-between">
-        <p className="flex-grow-0">Start date : {new Date(el.startdate).toDateString()}</p>
-        <p className="flex-grow-0">Due date : {new Date(el.duedate).toDateString()}</p>
+        <p className="flex-grow-0">Start date : {formatDate(new Date(el.startdate))}</p>
+        <p className="flex-grow-0">Due date : {formatDate(new Date(el.duedate))}</p>
       </div>
       <h2 className="text-2xl">{el.question}</h2>
     </div>
