@@ -56,6 +56,8 @@ function TeacherHome() {
     document.getElementById("editform").showModal();
   };
 
+  const updateList = () => setReload((prv) => !prv)
+
   if (loading) {
     return <p className="text-xl">Loading...</p>;
   }
@@ -64,14 +66,17 @@ function TeacherHome() {
       <h1 className="text-3xl text-center">TeacherHome</h1>
 
       {homeworks.map((el) => (
-        <HomeworkCard key={el.id} el={el} openEdit={openEdit} />
+        <HomeworkCard key={el.id} el={el} openEdit={openEdit} 
+          homeworkApi={homeworkApi}
+          updateList={updateList}
+        />
       ))}
 
       <Modal modal_id="editform" onClose={() => setEditData(initEditData)}>
           <HomeworkEditForm
             input={editData}
             setInput={setEditData}
-            updateList={() => setReload((prv) => !prv)}
+            updateList={updateList}
           />
       </Modal>
     </>
