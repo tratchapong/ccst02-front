@@ -2,7 +2,6 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import HomeworkCard from "../components/HomeworkCard";
 import Modal from "../components/Modal";
-import HomeworkForm from "./HomeworkForm";
 import HomeworkEditForm from "../components/HomeworkEditForm";
 
 const homeworkApi = axios.create({
@@ -17,11 +16,18 @@ const homeworkApi = axios.create({
 //   console.log(res);
 //   return res;
 // });
+const initEditData = {
+  subject_id: '',
+  question: '',
+  startdate: new Date(),
+  duedate: new Date(),
+  published: false
+}
 
 function TeacherHome() {
   const [homeworks, setHomework] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editData, SetEditData] = useState({});
+  const [editData, setEditData] = useState(initEditData);
   const [reload, setReload] = useState(false);
 
   homeworkApi.interceptors.request.use((config) => {
@@ -45,8 +51,8 @@ function TeacherHome() {
   }, [reload]);
 
   const openEdit = (el) => {
-    console.log(el)
-    SetEditData(el);
+    // console.log(el)
+    setEditData(el);
     document.getElementById("editform").showModal();
   };
 
@@ -61,9 +67,10 @@ function TeacherHome() {
         <HomeworkCard key={el.id} el={el} openEdit={openEdit} />
       ))}
 
-      <Modal modal_id="editform" onClose={() => SetEditData({})}>
+      <Modal modal_id="editform" onClose={() => setEditData(initEditData)}>
           <HomeworkEditForm
-            el={editData}
+            input={editData}
+            setInput={setEditData}
             updateList={() => setReload((prv) => !prv)}
           />
       </Modal>

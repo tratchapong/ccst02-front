@@ -12,29 +12,12 @@ const homeworkApi = axios.create({
   baseURL: 'http://localhost:8888/homework'
 })
 
-function HomeworkEditForm({el, updateList}) {
+function HomeworkEditForm({input, setInput, updateList}) {
 
-  console.log('HomeworkEditForm',el)
   homeworkApi.interceptors.request.use( config => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
     return config
   })
-
-  // const [input, setInput] = useState({
-  //   subject_id: el.subject_id ?? '',
-  //   question: el.question ?? '',
-  //   startdate: el.startdate ? new Date(el.startdate) : new Date(),
-  //   duedate: el.duedate ? new Date(el.duedate) : new Date(),
-  //   published: el.published ?? false,
-  // });
-
-  const [input, setInput] = useState({
-    subject_id: '',
-    question:  '',
-    startdate: el.startdate ? new Date(el.startdate) : new Date(),
-    duedate: el.duedate ? new Date(el.duedate) : new Date(),
-    published: el.published 
-  });
 
   const [subjects,setSubjects] = useState([])
 
@@ -50,17 +33,6 @@ function HomeworkEditForm({el, updateList}) {
     run()
   },[] )
 
-  useEffect(() => {
-    console.log('useEffect..setInput again')
-    setInput({
-      subject_id: el.subject_id ?? '',
-      question: el.question ?? '',
-      startdate: el.startdate ? new Date(el.startdate) : new Date(),
-      duedate: el.duedate ? new Date(el.duedate) : new Date(),
-      published: el.published ?? false,
-    });
-  }, [el.id,el.subject_id,el.question,el.startdate,el.duedate,el.published]);
-
 
   const hdlChange = (e) => {
     setInput((prv) => ({ ...prv, [e.target.name]: e.target.value }));
@@ -69,7 +41,7 @@ function HomeworkEditForm({el, updateList}) {
   const hdlSubmit = async e =>{
     try {
       e.preventDefault()
-      const rs = await homeworkApi.put(`/${el.id}`, input)
+      const rs = await homeworkApi.put(`/${input.id}`, input)
       updateList()
     }catch(err) {
       console.log(err.message)
@@ -99,9 +71,7 @@ function HomeworkEditForm({el, updateList}) {
           ))}
         </select>
       </label>
-
-          <span className="label-text">Question</span>
-
+      <span className="label-text">Question</span>
       <textarea
         className="textarea textarea-info"
         placeholder="Question"
