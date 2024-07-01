@@ -1,10 +1,16 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+
+const subjectApi = axios.create({
+  baseURL : 'http://localhost:8888/subject'
+})
+
+// subjectApi.get('/')
 
 function HomeworkForm() {
   const navigate = useNavigate()
@@ -15,6 +21,20 @@ function HomeworkForm() {
     published: false,
     subject_id: "",
   });
+  const [subject, setSubject] = useState([])
+
+  useEffect( ()=>{
+    const run = async () => {
+      try{
+        // const rs = await axios.get('http://localhost:8888/subject')
+        const rs = await subjectApi.get('/')
+        setSubject(rs.data.subject)
+      }catch(err) {
+        console.log(err.message)
+      }
+    }
+    run()
+  },[])
 
 
   const hdlChange = (e) => {
@@ -53,9 +73,13 @@ function HomeworkForm() {
             <option disabled value={""}>
               Pick one
             </option>
-            <option value={1}>HTML</option>
+            { subject.map( el => (
+              <option key={el.id} value={el.id}>{el.title}</option>
+            ))}
+
+            {/* <option value={1}>HTML</option>
             <option value={2}>CSS</option>
-            <option value={3}>Javascript</option>
+            <option value={3}>Javascript</option> */}
           </select>
         </label>
         <textarea
