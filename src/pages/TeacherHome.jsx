@@ -9,6 +9,14 @@ const homeworkApi = axios.create({
   baseURL: "http://localhost:8888/homework",
 });
 
+const initEditData = {
+  question: "",
+  startdate: new Date(),
+  duedate: new Date(),
+  published: false,
+  subject_id: "",
+}
+
 function TeacherHome() {
   homeworkApi.interceptors.request.use((req) => {
     req.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
@@ -17,20 +25,14 @@ function TeacherHome() {
 
   const [homeworks, setHomework] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editData, setEditdata] = useState({
-    question: "",
-    startdate: new Date(),
-    duedate: new Date(),
-    published: false,
-    subject_id: "",
-  })
-  // const el = homeworks[0];
+  const [editData, setEditdata] = useState(initEditData)
+  const [reload, setReload] = useState(false)
+
 
   useEffect(() => {
     const run = async () => {
       try {
         setLoading(true);
-        const token = localStorage.getItem("token");
         const rs = await homeworkApi.get("/");
         setHomework(rs.data.homeworks);
       } catch (err) {
@@ -40,12 +42,14 @@ function TeacherHome() {
       }
     };
     run();
-  }, []);
+  }, [reload]);
 
   const openEdit = (el) => {
     setEditdata(el)
     document.getElementById('editform').showModal()
   }
+
+  const reFetch = () => setReload(prv=>!prv)
 
   if (loading) {
     return <p className="text-xl">Loading...</p>;
@@ -58,8 +62,8 @@ function TeacherHome() {
         <HomeworkCard key={el.id} el={el} openEdit={openEdit}/>
       ))}
 
-      <Modal modal_id={'editform'}>
-        <HomeworkEditForm input={editData} setInput={setEditdata}/>
+      <Modal modal_id={'editform'} onClose={()=> setEditdata(initEditData)}>
+        <HomeworkEditForm input={editData} setInput={setEditdata} reFetch={reFetch} />
       </Modal>
     </>
   );

@@ -14,7 +14,7 @@ const homeworkApi = axios.create({
   baseURL: "http://localhost:8888/homework",
 });
 
-function HomeworkEditForm({ input, setInput }) {
+function HomeworkEditForm({ input, setInput, reFetch }) {
   homeworkApi.interceptors.request.use((req) => {
     req.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
     return req;
@@ -41,9 +41,10 @@ function HomeworkEditForm({ input, setInput }) {
   const hdlSubmit = async e =>{
     try {
       e.preventDefault()
-      // const rs = await homeworkApi.post('/', input)
-      // console.log(rs)
-      alert('Homework update')
+      const rs = await homeworkApi.put(`/${input.id}`, input)
+      // alert('Homework update')
+      document.getElementById('editform').close()
+      reFetch()
     }catch(err) {
       console.log(err.message)
     }
