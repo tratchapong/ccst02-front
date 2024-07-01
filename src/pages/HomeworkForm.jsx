@@ -10,9 +10,19 @@ const subjectApi = axios.create({
   baseURL : 'http://localhost:8888/subject'
 })
 
-// subjectApi.get('/')
+const homeworkApi = axios.create({
+  baseURL : 'http://localhost:8888/homework'
+})
+
 
 function HomeworkForm() {
+
+  homeworkApi.interceptors.request.use( req => {
+    // console.log('homeworkApi request...', req)
+    req.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    return req
+  })
+
   const navigate = useNavigate()
   const [input, setInput] = useState({
     question: "",
@@ -45,9 +55,7 @@ function HomeworkForm() {
     try {
       e.preventDefault()
       const token = localStorage.getItem('token')
-      const rs = await axios.post('http://localhost:8888/homework', input, {
-        headers : { Authorization : `Bearer ${token}`}
-      })
+      const rs = await homeworkApi.post('/', input)
       console.log(rs)
       alert('Homework created')
       navigate('/')
