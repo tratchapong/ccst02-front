@@ -59,7 +59,10 @@ function TeacherHome() {
       <h1 className="text-3xl text-center">Teacher Home</h1>
 
       {homeworks.map((el) => (
-        <HomeworkCard key={el.id} el={el} openEdit={openEdit}/>
+        <HomeworkCard key={el.id} el={el} openEdit={openEdit}
+          homeworkApi={homeworkApi}
+          reFetch={reFetch}
+        />
       ))}
 
       <Modal modal_id={'editform'} onClose={()=> setEditdata(initEditData)}>
