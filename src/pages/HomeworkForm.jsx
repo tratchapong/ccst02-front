@@ -54,7 +54,6 @@ function HomeworkForm() {
   const hdlSubmit = async e =>{
     try {
       e.preventDefault()
-      const token = localStorage.getItem('token')
       const rs = await homeworkApi.post('/', input)
       console.log(rs)
       alert('Homework created')
