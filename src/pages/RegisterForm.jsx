@@ -1,9 +1,11 @@
 import { useState } from "react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
 function RegisterForm() {
   const navigate = useNavigate()
+  const {toast} = useToast()
   const [input, setInput] = useState({
     s_code : '', password : '', confirmPassword : '', firstname : '', email : ''
   })
@@ -20,11 +22,12 @@ function RegisterForm() {
       // console.log(rs)
       // alert(rs.data.msg)
       if(rs.status === 201) {
-        alert('register ok')
+        // alert('register ok')
+        toast({ title : 'Register OK'})
         navigate('/')
       }
     } catch(err) {
-      console.log(err)
+      toast({ variant: "destructive", title : err.response?.data?.error || err.message})
     }
   }
   return (

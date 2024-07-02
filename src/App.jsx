@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/toaster";
 import useAuth from "./hooks/useAuth";
 import AppRouter from "./routes/AppRouter";
 
@@ -8,6 +9,7 @@ function App() {
     <div className="myapp">
      { loading && <p className="text-2xl">Loading</p> }
      { !loading && <AppRouter />}
+     <Toaster />
     </div>
   );
 }

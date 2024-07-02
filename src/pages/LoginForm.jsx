@@ -1,8 +1,10 @@
 import axios from 'axios'
 import { useState } from 'react'
 import useAuth from '../hooks/useAuth'
+import { useToast } from '@/components/ui/use-toast'
 
 function LoginForm() {
+  const {toast} = useToast()
   const {setUser} = useAuth()
   const [input, setInput] = useState({
     code : '', password : ''
@@ -24,9 +26,9 @@ function LoginForm() {
         headers : { Authorization : `Bearer ${rs.data}`}
       })
       setUser(rs2.data.user)
-
+      toast({title : 'Login Successful'})
     }catch(err) {
-      alert(err.response?.data?.error)
+      toast({ variant: "destructive", title : err.response?.data?.error || err.message})
       // console.log(err)
     }
   }
