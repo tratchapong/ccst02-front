@@ -7,6 +7,7 @@ import { Navigate } from "react-router-dom";
 import HomeworkForm from "../pages/HomeworkForm";
 import TeacherHome from "../pages/TeacherHome";
 import StudentHome from "../pages/StudentHome";
+import { Toaster } from "@/components/ui/toaster"
 
 const teacherRouter = createBrowserRouter([
   {
@@ -44,6 +45,7 @@ const guestRouter = createBrowserRouter([
       <>
         <Header />
         <Outlet />
+        <Toaster />
       </>
     ),
     children: [

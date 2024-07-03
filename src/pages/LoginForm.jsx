@@ -32,8 +32,12 @@ function LoginForm() {
     }catch(err) {
       // alert(err.response?.data?.error)
       toast({
-        variant: "destructive",
-        title : err.response?.data?.error})
+        // variant: "destructive",
+        title : err.response?.data?.error,
+        duration: 2000,
+        className: 'bg-red-500 text-white ',
+        textSize: 'text-xl'
+      })
       // console.log(err)
     }
   }
