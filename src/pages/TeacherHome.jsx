@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import HomeworkCard from "../componects/HomeworkCard";
 import Modal from "../componects/Modal";
 import HomeworkEditForm from "../componects/HomeworkEditForm";
+import {homeworkApi, reqAddToken} from '../api/homeworkApi'
+import { toast } from "@/components/ui/use-toast";
 
-const homeworkApi = axios.create({
-  baseURL: "http://localhost:8888/homework",
-});
+// const homeworkApi = axios.create({
+//   baseURL: "http://localhost:8888/homework",
+// });
 
 const initEditData = {
   question: "",
@@ -18,10 +20,11 @@ const initEditData = {
 }
 
 function TeacherHome() {
-  homeworkApi.interceptors.request.use((req) => {
-    req.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
-    return req;
-  });
+  // homeworkApi.interceptors.request.use((req) => {
+  //   req.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+  //   return req;
+  // });
+  reqAddToken()
 
   const [homeworks, setHomework] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,7 +39,12 @@ function TeacherHome() {
         const rs = await homeworkApi.get("/");
         setHomework(rs.data.homeworks);
       } catch (err) {
-        console.log(err.message);
+        toast({
+          title : err.response?.data?.error || err.message,
+          duration: 2000,
+          className: 'bg-red-500 text-white ',
+          textSize: 'text-xl'
+        })
       } finally {
         setLoading(false);
       }

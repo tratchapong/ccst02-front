@@ -1,28 +1,18 @@
 /* eslint-disable no-unused-vars */
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
+import {homeworkApi, subjectApi, reqAddToken} from '../api/homeworkApi'
 
 import "react-datepicker/dist/react-datepicker.css";
-
-const subjectApi = axios.create({
-  baseURL : 'http://localhost:8888/subject'
-})
-
-const homeworkApi = axios.create({
-  baseURL : 'http://localhost:8888/homework'
-})
+import { useToast } from "@/components/ui/use-toast";
 
 
 function HomeworkForm() {
 
-  homeworkApi.interceptors.request.use( req => {
-    // console.log('homeworkApi request...', req)
-    req.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
-    return req
-  })
+  reqAddToken()
 
+  const {toast} = useToast()
   const navigate = useNavigate()
   const [input, setInput] = useState({
     question: "",
@@ -55,11 +45,17 @@ function HomeworkForm() {
     try {
       e.preventDefault()
       const rs = await homeworkApi.post('/', input)
-      console.log(rs)
-      alert('Homework created')
+      // console.log(rs)
+      toast({
+        title: 'Homework created',
+        className: 'bg-lime-300'
+      })
       navigate('/')
     }catch(err) {
-      console.log(err.message)
+      toast({
+        title: err.response?.data?.error || err.message,
+        className: 'bg-red-500 text-white'
+      })
     }
 
   }

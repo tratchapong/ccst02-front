@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+import { toast } from "@/components/ui/use-toast";
 
 function RegisterForm() {
   const navigate = useNavigate()
@@ -20,11 +21,23 @@ function RegisterForm() {
       // console.log(rs)
       // alert(rs.data.msg)
       if(rs.status === 201) {
-        alert('register ok')
+        toast({
+          title : 'register ok' ,
+          duration: 2000,
+          className: 'bg-lime-500 text-white ',
+          textSize: 'text-xl'
+        })
+        // alert('register ok')
         navigate('/')
       }
     } catch(err) {
-      console.log(err)
+      toast({
+        // variant: "destructive",
+        title : err.response?.data?.error,
+        duration: 2000,
+        className: 'bg-red-500 text-white ',
+        textSize: 'text-xl'
+      })
     }
   }
   return (
