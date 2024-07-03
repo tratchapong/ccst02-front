@@ -1,8 +1,12 @@
 import axios from 'axios'
 import { useState } from 'react'
+import { useToast } from "@/components/ui/use-toast"
+
 import useAuth from '../hooks/useAuth'
 
+
 function LoginForm() {
+  const { toast } = useToast()
   const {setUser} = useAuth()
   const [input, setInput] = useState({
     code : '', password : ''
@@ -26,7 +30,10 @@ function LoginForm() {
       setUser(rs2.data.user)
 
     }catch(err) {
-      alert(err.response?.data?.error)
+      // alert(err.response?.data?.error)
+      toast({
+        variant: "destructive",
+        title : err.response?.data?.error})
       // console.log(err)
     }
   }
