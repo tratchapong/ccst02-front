@@ -21,4 +21,4 @@ const addToken = () => ( {
 
 
 
-export {homeworkApi, subjectApi, addTokenAllReq}
+export {homeworkApi, subjectApi, addTokenAllReq, addToken}
