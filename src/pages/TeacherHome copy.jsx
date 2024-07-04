@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
+import axios from "axios";
 import { useState, useEffect } from "react";
 import HomeworkCard from "../componects/HomeworkCard";
 import Modal from "../componects/Modal";
 import HomeworkEditForm from "../componects/HomeworkEditForm";
 import { homeworkApi, addTokenAllReq } from "../api/homeworkApi";
-import { useHomework } from "../stores/store";
 
 
 const initEditData = {
@@ -19,16 +19,25 @@ function TeacherHome() {
 
   addTokenAllReq()
 
-  // const [homeworks, setHomework] = useState([]);
-  // const [loading, setLoading] = useState(true);
+  const [homeworks, setHomework] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [editData, setEditdata] = useState(initEditData)
-  const [reload, setReload] = useState(false) 
-  const homeworks = useHomework( state => state.homeworks)
-  const loading = useHomework( state => state.loading)
-  const fetchData = useHomework( state => state.fetchData)
+  const [reload, setReload] = useState(false)
+
 
   useEffect(() => {
-    fetchData()
+    const run = async () => {
+      try {
+        setLoading(true);
+        const rs = await homeworkApi.get("/");
+        setHomework(rs.data.homeworks);
+      } catch (err) {
+        console.log(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    run();
   }, [reload]);
 
   const openEdit = (el) => {
@@ -43,7 +52,6 @@ function TeacherHome() {
   }
   return (
     <>
-      {/* {JSON.stringify(homeworks)} */}
       <h1 className="text-3xl text-center">Teacher Home</h1>
 
       {homeworks.map((el) => (
