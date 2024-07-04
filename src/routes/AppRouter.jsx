@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster"
 import Header from "../layouts/Header";
 import LoginForm from "../pages/LoginForm";
 import RegisterForm from "../pages/RegisterForm";
@@ -14,6 +15,7 @@ const teacherRouter = createBrowserRouter([
     element: <>
       <Header/>
       <Outlet/>
+      <Toaster/>
     </>,
     children: [
       { index: true, element: <TeacherHome /> },
@@ -28,6 +30,7 @@ const studentRouter = createBrowserRouter([
     element: <>
       <Header/>
       <Outlet/>
+      <Toaster/>
     </>,
     children: [
       { index: true, element: <StudentHome /> },
@@ -44,6 +47,7 @@ const guestRouter = createBrowserRouter([
       <>
         <Header />
         <Outlet />
+        <Toaster/>
       </>
     ),
     children: [

@@ -4,10 +4,8 @@ import { useState, useEffect } from "react";
 import HomeworkCard from "../componects/HomeworkCard";
 import Modal from "../componects/Modal";
 import HomeworkEditForm from "../componects/HomeworkEditForm";
+import { homeworkApi, addTokenAllReq } from "../api/homeworkApi";
 
-const homeworkApi = axios.create({
-  baseURL: "http://localhost:8888/homework",
-});
 
 const initEditData = {
   question: "",
@@ -18,10 +16,8 @@ const initEditData = {
 }
 
 function TeacherHome() {
-  homeworkApi.interceptors.request.use((req) => {
-    req.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
-    return req;
-  });
+
+  addTokenAllReq()
 
   const [homeworks, setHomework] = useState([]);
   const [loading, setLoading] = useState(true);
