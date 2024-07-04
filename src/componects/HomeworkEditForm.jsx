@@ -6,19 +6,9 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const subjectApi = axios.create({
-  baseURL: "http://localhost:8888/subject",
-});
-
-const homeworkApi = axios.create({
-  baseURL: "http://localhost:8888/homework",
-});
+import { homeworkApi, subjectApi, addToken } from "../api/homeworkApi";
 
 function HomeworkEditForm({ input, setInput, reFetch }) {
-  homeworkApi.interceptors.request.use((req) => {
-    req.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
-    return req;
-  });
 
   const [subject, setSubject] = useState([]);
 
@@ -41,7 +31,7 @@ function HomeworkEditForm({ input, setInput, reFetch }) {
   const hdlSubmit = async e =>{
     try {
       e.preventDefault()
-      const rs = await homeworkApi.put(`/${input.id}`, input)
+      const rs = await homeworkApi.put(`/${input.id}`, input, addToken())
       // alert('Homework update')
       document.getElementById('editform').close()
       reFetch()

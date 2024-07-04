@@ -5,23 +5,12 @@ import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-
-const subjectApi = axios.create({
-  baseURL : 'http://localhost:8888/subject'
-})
-
-const homeworkApi = axios.create({
-  baseURL : 'http://localhost:8888/homework'
-})
+import { homeworkApi, subjectApi, addTokenAllReq } from "../api/homeworkApi";
 
 
 function HomeworkForm() {
 
-  homeworkApi.interceptors.request.use( req => {
-    // console.log('homeworkApi request...', req)
-    req.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
-    return req
-  })
+  addTokenAllReq()
 
   const navigate = useNavigate()
   const [input, setInput] = useState({

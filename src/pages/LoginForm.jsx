@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { useState } from 'react'
-import { useToast } from "@/components/ui/use-toast"
+import { toast } from "@/components/ui/use-toast"
 
 import useAuth from '../hooks/useAuth'
 
 
 function LoginForm() {
-  const { toast } = useToast()
+  // const { toast } = useToast()
   const {setUser} = useAuth()
   const [input, setInput] = useState({
     code : '', password : ''
@@ -32,8 +32,13 @@ function LoginForm() {
     }catch(err) {
       // alert(err.response?.data?.error)
       toast({
-        variant: "destructive",
-        title : err.response?.data?.error})
+        // variant: "destructive",
+        title : err.response?.data?.error,
+        duration: 2000,
+        className : 'bg-pink-300 text-2xl',
+        textProp: 'text-2xl text-white'
+      })
+       
       // console.log(err)
     }
   }
