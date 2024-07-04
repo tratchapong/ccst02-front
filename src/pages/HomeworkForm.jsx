@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { homeworkApi, subjectApi, addTokenAllReq } from "../api/homeworkApi";
+import { useHomework } from "../stores/store";
+import { toast } from "@/components/ui/use-toast";
 
 
 function HomeworkForm() {
@@ -13,6 +14,7 @@ function HomeworkForm() {
   addTokenAllReq()
 
   const navigate = useNavigate()
+  const createDate = useHomework(state => state.createData)
   const [input, setInput] = useState({
     question: "",
     startdate: new Date(),
@@ -43,9 +45,9 @@ function HomeworkForm() {
   const hdlSubmit = async e =>{
     try {
       e.preventDefault()
-      const rs = await homeworkApi.post('/', input)
-      console.log(rs)
-      alert('Homework created')
+      // const rs = await homeworkApi.post('/', input)
+      await createDate(input)
+      toast({ title : 'Homework created'})
       navigate('/')
     }catch(err) {
       console.log(err.message)

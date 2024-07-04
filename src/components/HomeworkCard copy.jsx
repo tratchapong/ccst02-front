@@ -1,13 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
-import { useHomework } from "../stores/store"
 import formatDate from "../utils/formatDate"
 
 
-function HomeworkCard({el,openEdit}) {
-
-  const deleteData = useHomework( state => state.deleteData)  
+function HomeworkCard({el,openEdit, homeworkApi,reFetch}) {
+  
 
   const hdlDelete =async e => {
     try {
@@ -15,9 +13,8 @@ function HomeworkCard({el,openEdit}) {
       if(!confirm("Delete this homework?")) {
         return
       }
-      await deleteData(el.id)
-      // const rs = await homeworkApi.delete(`/${el.id}`)
-      // reFetch()
+      const rs = await homeworkApi.delete(`/${el.id}`)
+      reFetch()
     }catch(err) {
       console.log(err.message)
     }

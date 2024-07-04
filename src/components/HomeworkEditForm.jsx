@@ -1,16 +1,18 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import axios from "axios";
 import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
 import { homeworkApi, subjectApi, addToken } from "../api/homeworkApi";
+import { useHomework } from "../stores/store";
+
 
 function HomeworkEditForm({ input, setInput, reFetch }) {
 
   const [subject, setSubject] = useState([]);
+  const updateData = useHomework(state => state.updateData)
 
   useEffect(() => {
     const run = async () => {
@@ -31,10 +33,11 @@ function HomeworkEditForm({ input, setInput, reFetch }) {
   const hdlSubmit = async e =>{
     try {
       e.preventDefault()
-      const rs = await homeworkApi.put(`/${input.id}`, input, addToken())
+      // const rs = await homeworkApi.put(`/${input.id}`, input, addToken())
       // alert('Homework update')
+      await updateData(input.id, input)
       document.getElementById('editform').close()
-      reFetch()
+      // reFetch()
     }catch(err) {
       console.log(err.message)
     }

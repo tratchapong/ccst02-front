@@ -18,6 +18,40 @@ const homeworkStore = (set,get) => ({
 			})
 		}finally {
 			set(state => ({...state , loading: false}))	
+			get(state => state.fetchData())
+		}
+	}),
+	deleteData : (id)=> set( async (state)=>{
+		try {
+			const rs = await homeworkApi.delete(`/${id}`, addToken())
+			get().fetchData()
+		}catch(err){
+			toast({
+				title: err.message,
+				className: 'bg-red-500 text-white'
+			})
+		}
+	}),
+	updateData : (id, body)=> set( async (state)=>{
+		try {
+			const rs = await homeworkApi.put(`/${id}`,body, addToken())
+			get().fetchData()
+		}catch(err){
+			toast({
+				title: err.message,
+				className: 'bg-red-500 text-white'
+			})
+		}
+	}),
+	createData : (body)=> set( async (state)=>{
+		try {
+			const rs = await homeworkApi.post(`/`,body, addToken())
+			get().fetchData()
+		}catch(err){
+			toast({
+				title: err.message,
+				className: 'bg-red-500 text-white'
+			})
 		}
 	})
 })
