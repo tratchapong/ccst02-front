@@ -1,5 +1,5 @@
 import React from 'react'
-import { CarouselSize } from '../componects/CarouselSize'
+import { CarouselSize } from '../components/CarouselSize'
 
 function StudentHome() {
   return (

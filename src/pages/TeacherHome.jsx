@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
-import HomeworkCard from "../componects/HomeworkCard";
-import Modal from "../componects/Modal";
-import HomeworkEditForm from "../componects/HomeworkEditForm";
+import HomeworkCard from "../components/HomeworkCard";
+import Modal from "../components/Modal";
+import HomeworkEditForm from "../components/HomeworkEditForm";
 import { homeworkApi, addTokenAllReq } from "../api/homeworkApi";
 import { useHomework } from "../stores/store";
 
