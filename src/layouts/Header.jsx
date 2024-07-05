@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import InfoBox from "./InfoBox";
 
 const teacherNav = [
   { to: "/", text: "Home(T)" },
@@ -33,6 +34,7 @@ function Header() {
         <p className="text-xl">Hello, {user ? user.firstname : "Guest"}</p>
         <input type="checkbox" value="dark" className="toggle theme-controller" />
       </div>
+      <InfoBox />
       <ul className="menu menu-horizontal bg-base-200 rounded-box">
         {finalNav(user).map((el) => (
           <li key={el.to}>

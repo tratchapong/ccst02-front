@@ -18,7 +18,7 @@ const homeworkStore = (set,get) => ({
 			})			
 		}finally {
 			set(state => ({...state , loading: false}))	
-			get(state => state.fetchData())		
+			// get(state => state.fetchData())		
 		}
 	},
 

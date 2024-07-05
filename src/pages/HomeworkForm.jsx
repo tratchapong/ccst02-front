@@ -12,6 +12,8 @@ function HomeworkForm() {
 
   const navigate = useNavigate()
   const createData = useHomework(state => state.createData)
+  const subject = useHomework(state => state.subject)
+  const getSubject = useHomework(state => state.getSubject)
 
   const [input, setInput] = useState({
     question: "",
