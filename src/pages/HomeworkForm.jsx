@@ -4,17 +4,15 @@ import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { homeworkApi, subjectApi, addTokenAllReq } from "../api/homeworkApi";
 import { useHomework } from "../stores/store";
 import { toast } from "@/components/ui/use-toast";
 
 
 function HomeworkForm() {
 
-  addTokenAllReq()
-
   const navigate = useNavigate()
-  const createDate = useHomework(state => state.createData)
+  const createData = useHomework(state => state.createData)
+
   const [input, setInput] = useState({
     question: "",
     startdate: new Date(),
@@ -22,19 +20,9 @@ function HomeworkForm() {
     published: false,
     subject_id: "",
   });
-  const [subject, setSubject] = useState([])
 
   useEffect( ()=>{
-    const run = async () => {
-      try{
-        // const rs = await axios.get('http://localhost:8888/subject')
-        const rs = await subjectApi.get('/')
-        setSubject(rs.data.subject)
-      }catch(err) {
-        console.log(err.message)
-      }
-    }
-    run()
+    getSubject()
   },[])
 
 
@@ -45,8 +33,7 @@ function HomeworkForm() {
   const hdlSubmit = async e =>{
     try {
       e.preventDefault()
-      // const rs = await homeworkApi.post('/', input)
-      await createDate(input)
+      await createData(input)
       toast({ title : 'Homework created'})
       navigate('/')
     }catch(err) {
@@ -74,10 +61,6 @@ function HomeworkForm() {
             { subject.map( el => (
               <option key={el.id} value={el.id}>{el.title}</option>
             ))}
-
-            {/* <option value={1}>HTML</option>
-            <option value={2}>CSS</option>
-            <option value={3}>Javascript</option> */}
           </select>
         </label>
         <textarea

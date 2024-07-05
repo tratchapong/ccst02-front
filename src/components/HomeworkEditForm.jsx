@@ -5,26 +5,18 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-import { homeworkApi, subjectApi, addToken } from "../api/homeworkApi";
 import { useHomework } from "../stores/store";
 
 
-function HomeworkEditForm({ input, setInput, reFetch }) {
+function HomeworkEditForm({ input, setInput }) {
 
-  const [subject, setSubject] = useState([]);
+  const subject = useHomework(state => state.subject)
+  const getSubject = useHomework(state => state.getSubject)
   const updateData = useHomework(state => state.updateData)
 
-  useEffect(() => {
-    const run = async () => {
-      try {
-        const rs = await subjectApi.get("/");
-        setSubject(rs.data.subject);
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-    run();
-  }, []);
+  useEffect( ()=>{
+    getSubject()
+  },[])
 
   const hdlChange = (e) => {
     setInput((prv) => ({ ...prv, [e.target.name]: e.target.value }));
@@ -33,11 +25,8 @@ function HomeworkEditForm({ input, setInput, reFetch }) {
   const hdlSubmit = async e =>{
     try {
       e.preventDefault()
-      // const rs = await homeworkApi.put(`/${input.id}`, input, addToken())
-      // alert('Homework update')
       await updateData(input.id, input)
       document.getElementById('editform').close()
-      // reFetch()
     }catch(err) {
       console.log(err.message)
     }

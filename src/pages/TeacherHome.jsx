@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import HomeworkCard from "../components/HomeworkCard";
 import Modal from "../components/Modal";
 import HomeworkEditForm from "../components/HomeworkEditForm";
-import { homeworkApi, addTokenAllReq } from "../api/homeworkApi";
 import { useHomework } from "../stores/store";
 
 
@@ -17,7 +16,7 @@ const initEditData = {
 
 function TeacherHome() {
 
-  addTokenAllReq()
+  // addTokenAllReq()
 
   // const [homeworks, setHomework] = useState([]);
   // const [loading, setLoading] = useState(true);
@@ -30,7 +29,7 @@ function TeacherHome() {
 
   useEffect(() => {
     fetchData()
-  }, [reload]);
+  }, []);
 
   const openEdit = (el) => {
     setEditdata(el)
@@ -48,14 +47,11 @@ function TeacherHome() {
       <h1 className="text-3xl text-center">Teacher Home</h1>
 
       {homeworks.map((el) => (
-        <HomeworkCard key={el.id} el={el} openEdit={openEdit}
-          homeworkApi={homeworkApi}
-          reFetch={reFetch}
-        />
+        <HomeworkCard key={el.id} el={el} openEdit={openEdit} />
       ))}
 
       <Modal modal_id={'editform'} onClose={()=> setEditdata(initEditData)}>
-        <HomeworkEditForm input={editData} setInput={setEditdata} reFetch={reFetch} />
+        <HomeworkEditForm input={editData} setInput={setEditdata} />
       </Modal>
     </>
   );
