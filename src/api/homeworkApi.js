@@ -8,6 +8,14 @@ const subjectApi = axios.create({
   baseURL : 'http://localhost:8888/subject'
 })
 
+const authApi = axios.create({
+  baseURL : 'http://localhost:8888/auth'
+})
+
+const userApi = axios.create({
+  baseURL : 'http://localhost:8888/user'
+})
+
 const addTokenAllReq = () => {
   homeworkApi.interceptors.request.use((req) => {
     req.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
@@ -19,6 +27,4 @@ const addToken = () => ( {
   headers: { Authorization : `Bearer ${localStorage.getItem("token")}`}
 } )
 
-
-
-export {homeworkApi, subjectApi, addTokenAllReq, addToken}
+export {homeworkApi, subjectApi, authApi, addTokenAllReq, addToken}

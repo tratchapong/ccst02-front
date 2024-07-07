@@ -21,7 +21,7 @@ function TeacherHome() {
   // const [homeworks, setHomework] = useState([]);
   // const [loading, setLoading] = useState(true);
   const [editData, setEditdata] = useState(initEditData)
-  const [reload, setReload] = useState(false) 
+  // const [reload, setReload] = useState(false) 
 
   const homeworks = useHomework( state => state.homeworks)
   const loading = useHomework( state => state.loading)

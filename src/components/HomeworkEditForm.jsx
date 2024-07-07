@@ -26,7 +26,7 @@ function HomeworkEditForm({ input, setInput }) {
     try {
       e.preventDefault()
       await updateData(input.id, input)
-      document.getElementById('editform').close()
+      // document.getElementById('editform').close()
     }catch(err) {
       console.log(err.message)
     }

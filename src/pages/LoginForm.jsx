@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { toast } from "@/components/ui/use-toast"
 
 import useAuth from '../hooks/useAuth'
+import { authApi, addToken } from '../api/homeworkApi'
 
 
 function LoginForm() {
@@ -22,11 +23,9 @@ function LoginForm() {
       e.preventDefault()
       let codeFor = input.code.toLocaleLowerCase().startsWith('t') ? 't_code' : 's_code'
       const body = { [codeFor] : input.code , password : input.password }
-      const rs = await axios.post('http://localhost:8888/auth/login', body)
+      const rs = await authApi.post('/login', body)
       localStorage.setItem('token', rs.data)
-      const rs2 = await axios.get('http://localhost:8888/auth/me', {
-        headers : { Authorization : `Bearer ${rs.data}`}
-      })
+      const rs2 = await authApi.get('/me', addToken())
       setUser(rs2.data.user)
 
     }catch(err) {

@@ -34,7 +34,7 @@ function Header() {
         <p className="text-xl">Hello, {user ? user.firstname : "Guest"}</p>
         <input type="checkbox" value="dark" className="toggle theme-controller" />
       </div>
-      <InfoBox />
+      { user && <InfoBox />}
       <ul className="menu menu-horizontal bg-base-200 rounded-box">
         {finalNav(user).map((el) => (
           <li key={el.to}>

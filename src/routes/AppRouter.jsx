@@ -8,6 +8,7 @@ import { Navigate } from "react-router-dom";
 import HomeworkForm from "../pages/HomeworkForm";
 import TeacherHome from "../pages/TeacherHome";
 import StudentHome from "../pages/StudentHome";
+import StudentProfile from "../pages/StudentProfile";
 
 const teacherRouter = createBrowserRouter([
   {
@@ -34,7 +35,7 @@ const studentRouter = createBrowserRouter([
     </>,
     children: [
       { index: true, element: <StudentHome /> },
-      { path: 'profile', element: <p>Student Profile</p> },
+      { path: 'profile', element: <StudentProfile/> },
       { path: "*", element: <h1>Page not found</h1> }
     ]
   }
