@@ -62,7 +62,11 @@ const homeworkStore = (set,get) => ({
 	getSubject : async () => {
 		try {
 			const rs = await subjectApi.get('/')
-			set( state => ({...state, subject : rs.data.subject}))
+			const subject = rs.data.subject.map( el => ({
+				value: el.id,
+				text: el.title
+			}))
+			set( state => ({...state, subject }))
 		}catch(err) {
 			toast({
 				title: err.message,

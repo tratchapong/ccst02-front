@@ -18,6 +18,7 @@ function StudentProfile() {
   useEffect( ()=> {
     setInput( { firstname: user.firstname, email: user.email})
   },[])
+  
   const hdlChange = (e) => {
     setInput((prv) => ({ ...prv, [e.target.name]: e.target.value }));
   };

@@ -6,14 +6,16 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useHomework } from "../stores/store";
 import { toast } from "@/components/ui/use-toast";
+import { SelectList } from "../components/SelectList";
+import { SelectSubject } from "../components/SelectSubject";
 
 
 function HomeworkForm() {
 
   const navigate = useNavigate()
   const createData = useHomework(state => state.createData)
-  const subject = useHomework(state => state.subject)
-  const getSubject = useHomework(state => state.getSubject)
+  // const subject = useHomework(state => state.subject)
+  // const getSubject = useHomework(state => state.getSubject)
 
   const [input, setInput] = useState({
     question: "",
@@ -23,9 +25,9 @@ function HomeworkForm() {
     subject_id: "",
   });
 
-  useEffect( ()=>{
-    getSubject()
-  },[])
+  // useEffect( ()=>{
+  //   getSubject()
+  // },[])
 
 
   const hdlChange = (e) => {
@@ -47,7 +49,7 @@ function HomeworkForm() {
     <div className="border w-4/6 min-w-[600px] flex flex-col gap-3 mx-auto p-3">
       <h1 className="text-2xl">New Homework</h1>
       <form className="flex flex-col gap-2" onSubmit={hdlSubmit}>
-        <label className="form-control w-full max-w-xs">
+        {/* <label className="form-control w-full max-w-xs">
           <div className="label">
             <span className="label-text">Subject</span>
           </div>
@@ -64,7 +66,15 @@ function HomeworkForm() {
               <option key={el.id} value={el.id}>{el.title}</option>
             ))}
           </select>
-        </label>
+        </label> */}
+          {/* <SelectList 
+            list = {subject}
+            onChange={val => setInput(prv => ({...prv, subject_id : val}))}
+          /> */}
+        <SelectSubject
+          value=''
+          onChange={(val) => setInput((prv) => ({ ...prv, subject_id: val }))}
+        />
         <textarea
           className="textarea textarea-info"
           placeholder="Question"
