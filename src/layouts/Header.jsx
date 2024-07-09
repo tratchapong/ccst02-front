@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import InfoBox from "./InfoBox";
+import Avatar from "../components/Avatar";
 
 const teacherNav = [
   { to: "/", text: "Home(T)" },
@@ -31,8 +32,9 @@ function Header() {
   return (
     <div className="flex justify-between border-b-2">
       <div className="flex ms-2 items-center gap-5">
-        <p className="text-xl">Hello, {user ? user.firstname : "Guest"}</p>
-        <input type="checkbox" value="dark" className="toggle theme-controller" />
+        { user && <Avatar imgUrl={user.imgUrl ?? ''} />}
+        <p className="text-xl"> {user ? user.firstname : "Guest"}</p>
+        {/* <input type="checkbox" value="dark" className="toggle theme-controller" /> */}
       </div>
       { user && <InfoBox />}
       <ul className="menu menu-horizontal bg-base-200 rounded-box">

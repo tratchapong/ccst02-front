@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
+import {addToken, authApi, userApi} from '../api/homeworkApi'
+import { toast } from "@/components/ui/use-toast";
 import reactLogo from '../assets/react.svg'
+import Avatar from "../components/Avatar";
 
 function StudentProfile() {
   const [input, setInput] =useState({
@@ -10,7 +13,7 @@ function StudentProfile() {
   })
   const [file, setFile] = useState('')
 
-  const {user} = useAuth()
+  const {user, setUser} = useAuth()
 
   useEffect( ()=> {
     setInput( { firstname: user.firstname, email: user.email})
@@ -20,14 +23,28 @@ function StudentProfile() {
   };
 
   const hdlSelectFile = e => {
-    // console.dir(e.target.files[0])
-    // setInput(prv => ({...prv, file: e.target.files[0]}))
-    // let imgSrc = URL.createObjectURL(e.target.files[0])
     setFile(e.target.files[0])
-    // console.log(imgSrc)
   }
-  const hdlSubmit = (e) => {
-    e.preventDefault();
+  const hdlSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      // validation input
+      const formData = new FormData()
+      if(file) {
+        formData.append('picture', file)
+      }
+      formData.append('firstname', input.firstname)
+      formData.append('email', input.email)
+      for (var pair of formData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]); 
+      }
+      await userApi.put('/', formData, addToken())
+      const rs = await authApi.get('/me', addToken())
+      setUser(rs.data.user)
+    }catch(err) {
+      toast({title : err.message})
+    }
+
   };
   return (
     <div className="border w-4/6 min-w-[600px] flex flex-col gap-3 mx-auto p-3">
@@ -35,12 +52,17 @@ function StudentProfile() {
       {/* {file && <img src={file} alt="" />} */}
       <form className="flex flex-col gap-2" onSubmit={hdlSubmit}>
         <div className="flex justify-center items-center gap-4">
-          <div className="avatar">
+          {/* <div className="avatar">
             <div className="w-24 rounded-full">
-              <img src={file ? URL.createObjectURL(file) : reactLogo} />
-              {/* <img src={reactLogo} /> */}
+              <img src={file ? URL.createObjectURL(file) : user.imgUrl ?? reactLogo} />
+
             </div>
-          </div>
+          </div> */}
+          { file 
+            ? <Avatar imgUrl={ URL.createObjectURL(file) } />
+            : <Avatar imgUrl={ user.imgUrl}/>
+          }
+          
           <input type="file" className="file-input file-input-bordered file-input-info w-full max-w-xs" 
             accept="image/png, image/jpeg"
             onChange={hdlSelectFile}

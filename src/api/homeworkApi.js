@@ -27,4 +27,4 @@ const addToken = () => ( {
   headers: { Authorization : `Bearer ${localStorage.getItem("token")}`}
 } )
 
-export {homeworkApi, subjectApi, authApi, addTokenAllReq, addToken}
+export {homeworkApi, subjectApi, authApi, userApi, addTokenAllReq, addToken}
