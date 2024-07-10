@@ -73,7 +73,7 @@ function HomeworkForm() {
           /> */}
         <SelectSubject
           value=''
-          onChange={(val) => setInput((prv) => ({ ...prv, subject_id: val }))}
+          onChange={(val) => setInput((prv) => ({ ...prv, subject_id: val+'' }))}
         />
         <textarea
           className="textarea textarea-info"

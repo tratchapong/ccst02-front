@@ -19,7 +19,7 @@ export function SelectSubject({onChange, value}) {
     getSubject();
   }, []);
   return (
-    <Select onValueChange={onChange} value={value}>
+    <Select onValueChange={onChange} value={value+''}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select Subject" />
       </SelectTrigger>

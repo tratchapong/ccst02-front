@@ -18,13 +18,14 @@ function StudentProfile() {
   useEffect( ()=> {
     setInput( { firstname: user.firstname, email: user.email})
   },[])
-  
+
   const hdlChange = (e) => {
     setInput((prv) => ({ ...prv, [e.target.name]: e.target.value }));
   };
 
   const hdlSelectFile = e => {
     setFile(e.target.files[0])
+    console.log(URL.createObjectURL(e.target.files[0]).toString())
   }
   const hdlSubmit = async (e) => {
     try {
@@ -36,9 +37,9 @@ function StudentProfile() {
       }
       formData.append('firstname', input.firstname)
       formData.append('email', input.email)
-      for (var pair of formData.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]); 
-      }
+      // for (let pair of formData.entries()) {
+      //   console.log(pair[0]+ ', ' + pair[1]); 
+      // }
       await userApi.put('/', formData, addToken())
       const rs = await authApi.get('/me', addToken())
       setUser(rs.data.user)
