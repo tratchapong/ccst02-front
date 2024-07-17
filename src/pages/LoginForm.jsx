@@ -4,6 +4,7 @@ import { toast } from "@/components/ui/use-toast"
 
 import useAuth from '../hooks/useAuth'
 import { authApi, addToken } from '../api/homeworkApi'
+import { cn } from '@/lib/utils'
 
 
 function LoginForm() {
@@ -34,7 +35,7 @@ function LoginForm() {
         // variant: "destructive",
         title : err.response?.data?.error,
         duration: 2000,
-        className : 'bg-pink-300 text-2xl',
+        className : 'top-0 right-0 max-w-[420px] fixed bg-pink-300 text-2xl',
         textProp: 'text-2xl text-white'
       })
        
